@@ -12,7 +12,6 @@ variables:
 stages:
 - stage: Build
   displayName: Build stage
-  variables:
   jobs:
   - job: BuildInfrastructure
     displayName: Build Infrastructure
