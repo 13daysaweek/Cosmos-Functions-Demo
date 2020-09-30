@@ -9,6 +9,7 @@ var functionHostName = '${functionAppName}.azurewebsites.net'
 var functionScmHostName = '${functionAppName}.scm.azurewebsites.net'
 var functionStorage = uniqueString(functionAppName)
 var functionFarmName = '${functionAppName}-farm'
+var appInsightsName: '${functionAppName}-insights'
 
 resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2020-06-01-preview' = {
     name: cosmosAccountName
@@ -132,146 +133,32 @@ resource storage 'Microsoft.Storage/storageAccounts@2019-06-01' = {
     }
 }
 
-resource functionFarm 'Microsoft.Web/serverFarms@2018-02-01' = {
-    name: functionFarmName
-    location: location
+resource blobServices 'Microsoft.Storage/storageAccounts/blobServices@2019-06-01' = {
+    name: '${storage.name}/default'
     sku: {
-        name: 'Y1'
-        tier: 'Dyanmic'
-        size: 'Y1'
-        family: 'Y'
-        capacity: 0
+        name: 'Standard_LRS'
+        tier: 'Standard'
     }
-    kind: 'functionapp'
     properties: {
-        perSiteScaling: false
-        maximumElasticWorkerCount: 1
-        isSpot: false
-        reserved: true
-        isXenon: false
-        hyperV: false
-        targetWorkerCount: 0
-        targetWorkerSizeId: 0
-    }
-}
-
-resource functionApp 'Microsoft.Web/sites@2018-11-01' = {
-    name: functionAppName
-    location: location
-    kind: 'functionapp,linux'
-    properties: {
-        enabled: true
-        hostNameSslStates: [
-            {
-                name: functionHostName
-                sslState: 'Disabled'
-                hostType: 'Standard'
-            }
-            {
-                name: functionScmHostName
-                sslState: 'Disabled'
-                hostType: 'Repository'
-            }
-        ]
-        serverFarmId: functionFarm.id
-        reserved: true
-        isXenon: false
-        hyperV: false
-        siteConfig: {
-        }
-        scmSiteAlsoStopped: false
-        clientAffinityEnabled: false
-        clientCertEnabled: false
-        hostNamesDisabled: false
-        containerSize: 1536
-        dailyMemoryTimeQuota: 0
-        httpsOnly: false
-        redundancyMode: 'None'
-    }
-}
-
-resource functionConfig 'Microsoft.Web/sites/config@2018-11-01' = {
-    name: '${functionAppName}/web'
-    location: location
-    properties: {
-        numberOfWorkers: -1
-        defaultDocuments: [
-            'Default.htm'
-            'Default.html'
-            'Default.asp'
-            'index.htm'
-            'index.html'
-            'iisstart.htm'
-            'default.aspx'
-            'index.php'
-        ]
-        netFrameworkVersion: 'v4.0'
-        linuxFxVersion: 'dotnet|3.1'
-        requestTracingEnabled: false
-        remoteDebuggingEnabled: false
-        httpLoggingEnabled: false
-        logsDirectorySizeLimit: 35
-        publishingUsername: '$cmhtemp'
-        azureStorageAccounts: {            
-        }
-        scmType: 'None'
-        use32BitWorkerProcess: false
-        webSocketsEnabled: false
-        alwaysOn: false
-        managedPipelineMode: 'Integrated'
-        virtualApplications: [
-            {
-                virtualPath: '/'
-                pysicalPath: 'site\\wwwroot'
-                preloadEnabled: false
-            }
-        ]
-        loadBalancing: 'LeastRequests'
-        experiments: {
-            rampUpRules: [                
-            ]
-        }
-        autoHealEnabled: false
         cors: {
-            allowedOrigins: [
-                'https://functions.azure.com'
-                'https://functions-staging.azure.com'
-                'https://functions-next.azure.com'
+            corsRules: [                
             ]
-            supportCredentials: false
         }
-        localMySqlEnabled: false
-        ipSecurityRestrictions: [
-            {
-                ipAddress: 'Any'
-                action: 'Allow'
-                priority: 1
-                name: 'Allow all'
-                description: 'Allow all access'
-            }
-        ]
-        scmIpSecurityRestrictions: [
-            {
-                ipAddress: 'Any'
-                action: 'Allow'
-                priority: 1
-                name: 'Allow all'
-                description: 'Allow all access'
-            }            
-        ]
-        scmIpSecurityRestrictionsUseMain: false
-        http20Enabled: false
-        minTlsVersion: '1.2'
-        ftpsState: 'AllAllowed'
-        reservedInstanceCount: 0
+        deleteRetentionPolicy: {
+            enabled: true
+            days: 7
+        }
     }
 }
 
-resource hostBinding 'Microsoft.Web/sites/hostNameBindings@2018-11-01' = {
-    name: '${functionAppName}/${functionHostName}'
+resource appInsights 'Microsoft.Insights/components@2020-02-02-preview' = {
+    name: appInsightsName
     location: location
+    kind: 'web'
     properties: {
-        siteName: functionAppName
-        hostNameType: 'Verified'
+        Application_Type: 'web'
+        RetentionInDays: 90
+        publicNetworkAccessForIngestion: 'Enabled'
+        publicNetworkAccessForQuery: 'Enabled'
     }
 }
