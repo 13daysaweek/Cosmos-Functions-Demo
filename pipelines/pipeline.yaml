@@ -13,6 +13,7 @@ variables:
   cosmosContainerName: 'products'
   cosmosContainerPartitionKey: '/product_id'
   functionAppName: 'cmh-cosmos-demo'
+  infrastructure-arm-template: '$(Build.ArtifactStagingDirectory)/infrastructure/cosmosfunctionsdemo.json'
 
 
 stages:
