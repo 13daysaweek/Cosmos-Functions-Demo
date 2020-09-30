@@ -64,7 +64,7 @@ stages:
           - task: AzureResourceGroupDeployment@2
             displayName: 'Deploy Infrastructure'
             inputs:
-               azureSubscription: $(azure-sub-dev)
+               azureSubscription: $(azure-sub)
                csmFile: $(infrastructure-arm-template)
                resourceGroupName: $(resourceGroup)
                location: $(location)
