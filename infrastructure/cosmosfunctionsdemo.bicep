@@ -61,7 +61,7 @@ resource cosmosDb 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2020-06-01
 }
 
 resource cosmosContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2020-06-01-preview' = {
-    name: '${cosmosAccount.name}/${cosmosDb.name}/${cosmosContainerName}'
+    name: '${cosmosDb.name}/${cosmosContainerName}'
     properties: {
         resource: {
             id: cosmosContainerName
