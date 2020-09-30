@@ -66,5 +66,5 @@ stages:
                csmFile: $(infrastructure-arm-template)
                resourceGroupName: $(resourceGroup)
                location: $(location)
-               overrideParameters: '-cosmosAccountName $(cosmosAccountName) -cosmosDatabaseName $(cosmosDatabaseName) -cosmosContainerName $(cosmosContainerName) -cosmosContainerPartitionKey $(cosmosContainerPartitionKey)'
+               overrideParameters: '-functionAppName $(functionAppName) -cosmosAccountName $(cosmosAccountName) -cosmosDatabaseName $(cosmosDatabaseName) -cosmosContainerName $(cosmosContainerName) -cosmosContainerPartitionKey $(cosmosContainerPartitionKey)'
                deploymentOutputs: 'armOutput'
