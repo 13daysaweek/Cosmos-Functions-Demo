@@ -1,0 +1,44 @@
+trigger:
+- master
+
+variables:
+  buildConfiguration: 'Release'
+  skipComponentGovernanceDetection: true
+  pool: 'ubuntu-latest'
+  artifact: 'mybeercellar-api'
+  location: 'eastus'
+  resourceGroup: 'COSMOS-DEMO'
+
+stages:
+- stage: Build
+  displayName: Build stage
+  variables:
+  jobs:
+  - job: BuildInfrastructure
+    displayName: Build Infrastructure
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Bash@3
+      displayName: 'Install Bicep tooling'
+      inputs:
+        filePath: '$(System.DefaultWorkingDirectory)/infrastructure/install.sh'
+
+    - task: Bash@3
+      displayName: 'Build ARM template from Bicep'
+      inputs:
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure/'
+        filePath: '$(System.DefaultWorkingDirectory)/infrastructure/build.sh'
+    - task: CopyFiles@2
+      displayName: 'Copy ARM templates to archive directory'
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)/infrastructure'
+        Contents: '**/*.json'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/infrastructure/'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish infrastructure artifact'
+      inputs:
+        PathtoPublish: $(Build.ArtifactStagingDirectory)/infrastructure/
+        ArtifactName: 'Infrastructure'
+        publishLocation: Container
