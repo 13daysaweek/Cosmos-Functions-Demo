@@ -72,7 +72,7 @@ resource cosmosContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/con
             indexingPolicy: {
                 indexingMode: 'consistent'
                 automatic: true
-                includePaths: [
+                includedPaths: [
                     {
                         path: '/*'
                     }
