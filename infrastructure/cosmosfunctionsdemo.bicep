@@ -5,6 +5,10 @@ param cosmosDatabaseName string
 param cosmosContainerName string
 param cosmosContainerPartitionKey string
 
+var functionHostName = '${functionAppName}.azurewebsites.net'
+var functionScmHostName = '${functionAppName}.scm.azurewebsites.net'
+var functionStorage = '${functionAppName}store'
+
 resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2020-06-01-preview' = {
     name: cosmosAccountName
     location: location
@@ -71,18 +75,6 @@ resource cosmosContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/con
                 includePaths: [
                     {
                         path: '/*'
-                        indexes: [
-                            {
-                                kind: 'Range'
-                                dataType: 'Number'
-                                precision: -1
-                            }
-                            {
-                                kind: 'Range'
-                                dataType: 'String'
-                                precision: -1
-                            }
-                        ]
                     }
                 ]
                 excludedPaths: [
@@ -101,6 +93,40 @@ resource cosmosContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/con
                 mode: 'LastWriterWins'
                 conflictResolutionPath: '/_ts'
             }
+        }
+    }
+}
+
+resource storage 'Microsoft.Storage/storageAccounts@2019-06-01' = {
+    name: functionStorage
+    location: location
+    sku: {
+        name: 'Standard_LRS'
+        tier: 'Standard'
+    }
+    kind: 'Storage'
+    properties: {
+        networkAcls: {
+            bypass: 'AzureServices'
+            virtualNetworkRules: [                
+            ]
+            ipRules: [                
+            ]
+            defaultAction: 'Allow'
+        }
+        supportsHttpsTrafficOnly: true
+        encryption: {
+            services: {
+                file: {
+                    keyType: 'Account'
+                    enabled: true
+                }
+                blob: {
+                    keyType: 'Account'
+                    enabled: true
+                }
+            }
+            keySource: 'Microsoft.Storage'
         }
     }
 }
