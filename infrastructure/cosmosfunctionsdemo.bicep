@@ -189,7 +189,7 @@ resource appService 'Microsoft.Web/serverFarms@2019-08-01' = {
 resource functionApp 'Microsoft.Web/sites@2018-11-01' = {
     name: functionAppName
     location: location
-    kind: 'functionapp, linux'
+    kind: 'functionapp,linux'
     properties: {
         enabled: true
         hostNameSslStates: [
