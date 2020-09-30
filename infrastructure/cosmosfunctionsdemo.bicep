@@ -178,7 +178,7 @@ resource appService 'Microsoft.Web/serverFarms@2019-08-01' = {
         perSiteScaling: false
         maximumElasticWorkerCount: 1
         isSpot: false
-        reserved: false
+        reserved: true
         isXenon: false
         hyperV: false
         targetWorkerCount: 0
