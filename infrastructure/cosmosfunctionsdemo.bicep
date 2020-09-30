@@ -7,7 +7,7 @@ param cosmosContainerPartitionKey string
 
 var functionHostName = '${functionAppName}.azurewebsites.net'
 var functionScmHostName = '${functionAppName}.scm.azurewebsites.net'
-var functionStorage = '${functionAppName}store'
+var functionStorage = uniqueString(functionAppName)
 
 resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2020-06-01-preview' = {
     name: cosmosAccountName
