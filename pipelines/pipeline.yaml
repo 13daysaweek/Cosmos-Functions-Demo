@@ -5,9 +5,15 @@ variables:
   buildConfiguration: 'Release'
   skipComponentGovernanceDetection: true
   pool: 'ubuntu-latest'
-  artifact: 'mybeercellar-api'
   location: 'eastus'
   resourceGroup: 'COSMOS-DEMO'
+  azure-sub: 'AIRS'
+  cosmosAccountName: 'cmh-cosmos-demo-acct'
+  cosmosDatabaseName: 'cmh-cosmos-demo-db'
+  cosmosContainerName: 'products'
+  cosmosContainerPartitionKey: '/product_id'
+  functionAppName: 'cmh-cosmos-demo'
+
 
 stages:
 - stage: Build
@@ -42,3 +48,26 @@ stages:
         PathtoPublish: $(Build.ArtifactStagingDirectory)/infrastructure/
         ArtifactName: 'Infrastructure'
         publishLocation: Container
+
+- stage: 'Deploy'
+  displayName: 'Deploy Stage'
+  variables:
+  - group: 'Cosmos Demo Variables'
+  jobs:
+  - deployment: 'Deploy'
+    environment: 'Development'
+    pool:
+      vmImage: $(pool)
+    strategy:
+     runOnce:
+       deploy:
+        steps:
+          - task: AzureResourceGroupDeployment@2
+            displayName: 'Deploy Infrastructure'
+            inputs:
+               azureSubscription: $(azure-sub-dev)
+               csmFile: $(infrastructure-arm-template)
+               resourceGroupName: $(resourceGroup)
+               location: $(location)
+               overrideParameters: '-cosmosAccountName $(cosmosAccountName) -cosmosDatabaseName $(cosmosDatabaseName) -cosmosContainerName $(cosmosContainerName) -cosmosContainerPartitionKey $(cosmosContainerPartitionKey)'
+               deploymentOutputs: 'armOutput'
