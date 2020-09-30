@@ -9,7 +9,7 @@ var functionHostName = '${functionAppName}.azurewebsites.net'
 var functionScmHostName = '${functionAppName}.scm.azurewebsites.net'
 var functionStorage = uniqueString(functionAppName)
 var functionFarmName = '${functionAppName}-farm'
-var appInsightsName: '${functionAppName}-insights'
+var appInsightsName = '${functionAppName}-insights'
 
 resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2020-06-01-preview' = {
     name: cosmosAccountName
@@ -160,5 +160,28 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02-preview' = {
         RetentionInDays: 90
         publicNetworkAccessForIngestion: 'Enabled'
         publicNetworkAccessForQuery: 'Enabled'
+    }
+}
+
+resource appService 'Microsoft.Web/serverFarms@2019-08-01' = {
+    name: functionFarmName
+    location: location
+    kind: 'functionapp'
+    sku: {
+        name: 'Y1'
+        tier: 'Dyanmic'
+        size: 'Y1'
+        family: 'Y'
+        capacity: 0
+    }
+    properties: {
+        perSiteScaling: false
+        maximumElasticWorkerCount: 1
+        isSpot: false
+        reserved: false
+        isXenon: false
+        hyperV: false
+        targetWorkerCount: 0
+        targetWorkerSizeId: 0
     }
 }
