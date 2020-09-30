@@ -13,7 +13,7 @@ variables:
   cosmosContainerName: 'products'
   cosmosContainerPartitionKey: '/product_id'
   functionAppName: 'cmh-cosmos-demo'
-  infrastructure-arm-template: '$(Pipeline.Workspace)/infrastructure/cosmosfunctionsdemo.json'
+  infrastructure-arm-template: '$(Pipeline.Workspace)/Infrastructure/cosmosfunctionsdemo.json'
 
 stages:
 - stage: Build
