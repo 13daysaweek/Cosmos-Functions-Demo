@@ -99,6 +99,6 @@ stages:
               azureSubscription: 'AIRS'
               appType: 'functionApp'
               WebAppName: '$(functionAppName)'
-              packageForLinux: $(Pipeline.Workspace)/build/Code/*.zip
+              packageForLinux: $(Pipeline.Workspace)/Code/*.zip
               RuntimeStack: 'DOTNETCORE|3.1'
               StartupCommand: 'dotnet CosmosFunctionsDemo.dll'
