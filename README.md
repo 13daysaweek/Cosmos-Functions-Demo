@@ -1,4 +1,10 @@
-## Azure Functions + Cosmos DB Integration Demo
+# Azure Functions + Cosmos DB Integration Demo
+
+## About
+
+## Architecture
+[TODO:  Add PUML or some other kind of diagram]
+### Functions
 
 | Function Name            | Description                              |
 |--------------------------|------------------------------------------|
@@ -7,3 +13,8 @@
 | GetProductByIdFromRoute  |                                          |
 | GetProducts              |                                          |
 | GetProductsByDescription |                                          |
+
+
+## Deploying
+
+### Installing pre-reqs
