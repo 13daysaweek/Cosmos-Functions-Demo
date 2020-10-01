@@ -48,6 +48,29 @@ stages:
         ArtifactName: 'Infrastructure'
         publishLocation: Container
 
+    - task: DotNetCoreCLI@2
+      displayName: 'Build'
+      inputs:
+        command: build
+        projects: '**/*.csproj'
+        arguments: '-- configuration Release'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish'
+      inputs:
+        command: publish
+        publishWebProjects: true
+        zipAfterPublish: true
+        projects: '**/*.csproj'
+        arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/code/'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish code artifact'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/code/'
+        ArtifactName: 'Code'
+        publishLocation: Container                        
+
 - stage: 'Deploy'
   displayName: 'Deploy Stage'
   jobs:
