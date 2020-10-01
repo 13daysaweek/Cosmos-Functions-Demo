@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using CosmosFunctionsDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -11,7 +10,7 @@ namespace CosmosFunctionsDemo
     public static class GetProductByIdFromRoute
     {
         [FunctionName("GetProductByIdFromRoute")]
-        public static async Task<IActionResult> Run(
+        public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "{category}/{id}")] HttpRequest req,
             [CosmosDB(databaseName:"%cosmosDatabaseName%",
                 collectionName: "%cosmosContainerName%",
