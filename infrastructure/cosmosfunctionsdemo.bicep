@@ -4,6 +4,8 @@ param cosmosAccountName string
 param cosmosDatabaseName string
 param cosmosContainerName string
 param cosmosContainerPartitionKey string
+param ordersContainerName string
+param ordersPartitionKey string
 
 var functionHostName = '${functionAppName}.azurewebsites.net'
 var functionScmHostName = '${functionAppName}.scm.azurewebsites.net'
@@ -95,6 +97,37 @@ resource cosmosContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/con
                 mode: 'LastWriterWins'
                 conflictResolutionPath: '/_ts'
             }
+        }
+    }
+}
+
+resource ordersContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2020-06-01-preview' = {
+    name: '${cosmosDb.name}/${ordersContainerName}'
+    properties: {
+        id: ordersContainerName
+        indexingPolicy: {
+            indexingMode: 'consistent'
+            automatic: true
+            includedPaths: [
+                {
+                    path: '/*'
+                }
+            ]
+            excludedPaths: [
+                {
+                    path: '/"_etag"/?'
+                }
+            ]
+        }
+        partitionKey: {
+            paths: [
+                ordersPartitionKey
+            ]
+            kind: 'hash'
+        }
+        conflictResolutionPolicy: {
+            mode: 'LastWriterWins'
+            conflictResolutionPath: '/_ts'
         }
     }
 }

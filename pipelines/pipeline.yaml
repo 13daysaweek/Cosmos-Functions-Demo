@@ -12,6 +12,8 @@ variables:
   cosmosDatabaseName: 'cmh-cosmos-demo-db'
   cosmosContainerName: 'products'
   cosmosContainerPartitionKey: '/category'
+  ordersContainerName: 'orders'
+  ordersPartitionKey: '/customerNumber'
   functionAppName: 'cmh-cosmos-demo'
   infrastructure-arm-template: '$(Pipeline.Workspace)/Infrastructure/cosmosfunctionsdemo.json'
 
@@ -91,7 +93,7 @@ stages:
                csmFile: $(infrastructure-arm-template)
                resourceGroupName: $(resourceGroup)
                location: $(location)
-               overrideParameters: '-functionAppName $(functionAppName) -cosmosAccountName $(cosmosAccountName) -cosmosDatabaseName $(cosmosDatabaseName) -cosmosContainerName $(cosmosContainerName) -cosmosContainerPartitionKey $(cosmosContainerPartitionKey)'
+               overrideParameters: '-functionAppName $(functionAppName) -cosmosAccountName $(cosmosAccountName) -cosmosDatabaseName $(cosmosDatabaseName) -cosmosContainerName $(cosmosContainerName) -cosmosContainerPartitionKey $(cosmosContainerPartitionKey) -ordersContainerName $(ordersContainerName) -ordersPartitionKey $(ordersPartitionKey)'
                deploymentOutputs: 'armOutput'
 
           - task: AzureFunctionApp@1
