@@ -104,30 +104,32 @@ resource cosmosContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/con
 resource ordersContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2020-06-01-preview' = {
     name: '${cosmosDb.name}/${ordersContainerName}'
     properties: {
-        id: ordersContainerName
-        indexingPolicy: {
-            indexingMode: 'consistent'
-            automatic: true
-            includedPaths: [
-                {
-                    path: '/*'
-                }
-            ]
-            excludedPaths: [
-                {
-                    path: '/"_etag"/?'
-                }
-            ]
-        }
-        partitionKey: {
-            paths: [
-                ordersPartitionKey
-            ]
-            kind: 'hash'
-        }
-        conflictResolutionPolicy: {
-            mode: 'LastWriterWins'
-            conflictResolutionPath: '/_ts'
+        resource: {
+            id: ordersContainerName
+            indexingPolicy: {
+                indexingMode: 'consistent'
+                automatic: true
+                includedPaths: [
+                    {
+                        path: '/*'
+                    }
+                ]
+                excludedPaths: [
+                    {
+                        path: '/"_etag"/?'
+                    }
+                ]
+            }
+            partitionKey: {
+                paths: [
+                    ordersPartitionKey
+                ]
+                kind: 'hash'
+            }
+            conflictResolutionPolicy: {
+                mode: 'LastWriterWins'
+                conflictResolutionPath: '/_ts'
+            }
         }
     }
 }
