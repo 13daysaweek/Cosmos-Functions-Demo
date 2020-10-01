@@ -73,6 +73,8 @@ stages:
 
 - stage: 'Deploy'
   displayName: 'Deploy Stage'
+  variables:
+  - group: 'Cosmos Demo Variables'
   jobs:
   - deployment: 'Deploy'
     environment: 'Development'
@@ -93,8 +95,10 @@ stages:
                deploymentOutputs: 'armOutput'
 
           - task: AzureFunctionApp@1
+            displayName: 'Deploy functions'
             inputs:
               azureSubscription: 'AIRS'
               appType: functionAppLinux
               appName: $(functionAppName)
               package: $(Pipeline.Workspace)/Code/*.zip
+              appSettings: '-cosmosDatabaseName $(cosmosDatabaseName) -cosmosContainerName $(cosmosContainerName) -cosmosConnectionstring $(cosmosConnectionString)'
