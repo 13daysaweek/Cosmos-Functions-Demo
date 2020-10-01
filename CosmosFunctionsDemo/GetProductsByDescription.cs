@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CosmosFunctionsDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -7,19 +8,19 @@ using Microsoft.Extensions.Logging;
 
 namespace CosmosFunctionsDemo
 {
-    public static class GetProductByIdFromRoute
+    public static class GetProductsByDescription
     {
-        [FunctionName("GetProductByIdFromRoute")]
+        [FunctionName("GetProductsByDescription")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "products/{category}/{id}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "search/{category}")] HttpRequest req,
             [CosmosDB(databaseName:"%cosmosDatabaseName%",
                 collectionName: "%cosmosContainerName%",
                 ConnectionStringSetting = "cosmosConnectionString",
-                Id = "{id}",
-                PartitionKey = "{category}")] Product product,
+                SqlQuery = "SELECT * FROM products c WHERE c.category = '{category}'")] IEnumerable<Product> products,
             ILogger log)
         {
-            return new OkObjectResult(product);
+            log.LogInformation($"Got products: {products}");
+            return new OkObjectResult(products);
         }
     }
 }
