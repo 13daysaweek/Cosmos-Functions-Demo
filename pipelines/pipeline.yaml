@@ -59,7 +59,7 @@ stages:
       displayName: 'Publish'
       inputs:
         command: publish
-        publishWebProjects: true
+        publishWebProjects: false
         zipAfterPublish: true
         projects: '**/*.csproj'
         arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/code/'
