@@ -11,7 +11,7 @@ variables:
   cosmosAccountName: 'cmh-cosmos-demo-acct'
   cosmosDatabaseName: 'cmh-cosmos-demo-db'
   cosmosContainerName: 'products'
-  cosmosContainerPartitionKey: '/product_id'
+  cosmosContainerPartitionKey: '/category'
   functionAppName: 'cmh-cosmos-demo'
   infrastructure-arm-template: '$(Pipeline.Workspace)/Infrastructure/cosmosfunctionsdemo.json'
 
