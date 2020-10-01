@@ -12,14 +12,13 @@ namespace CosmosFunctionsDemo
     {
         [FunctionName("GetProductsByDescription")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "search/{category}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "search/{description}")] HttpRequest req,
             [CosmosDB(databaseName:"%cosmosDatabaseName%",
                 collectionName: "%cosmosContainerName%",
                 ConnectionStringSetting = "cosmosConnectionString",
-                SqlQuery = "SELECT * FROM products c WHERE c.category = '{category}'")] IEnumerable<Product> products,
+                SqlQuery = "SELECT * FROM c WHERE CONTAINS(c.description, {description}, true)")] IEnumerable<Product> products,
             ILogger log)
         {
-            log.LogInformation($"Got products: {products}");
             return new OkObjectResult(products);
         }
     }
