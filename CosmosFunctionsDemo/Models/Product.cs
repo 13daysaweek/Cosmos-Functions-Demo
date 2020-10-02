@@ -15,5 +15,8 @@ namespace CosmosFunctionsDemo.Models
 
         [JsonProperty("unitPrice")]
         public decimal UnitPrice { get; set; }
+
+        [JsonProperty("availableInventory")]
+        public int AvailableInventory { get; set; }
     }
 }

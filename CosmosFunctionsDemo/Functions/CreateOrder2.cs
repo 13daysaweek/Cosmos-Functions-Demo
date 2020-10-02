@@ -7,7 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace CosmosFunctionsDemo
+namespace CosmosFunctionsDemo.Functions
 {
     public static class CreateOrder2
     {
