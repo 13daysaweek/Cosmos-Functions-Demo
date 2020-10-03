@@ -31,16 +31,13 @@ namespace CosmosFunctionsDemo.Functions
         {
             if (input != null && input.Count > 0)
             {
-                log.LogInformation("Documents modified " + input.Count);
-                log.LogInformation("First document Id " + input[0].Id);
-
                 foreach (var doc in input)
                 {
                     var order = Order.FromDocument(doc);
 
                     foreach (var lineItem in order.LineItems)
                     {
-                        await _inventoryUpdateService.UpdateAvailableInventoryAsync(documentClient, lineItem.ProductId, lineItem.Quantity);
+                        await _inventoryUpdateService.UpdateAvailableInventoryAsync(documentClient, lineItem);
                     }
                 }
             }

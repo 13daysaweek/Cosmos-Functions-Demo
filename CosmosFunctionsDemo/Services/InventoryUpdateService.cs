@@ -31,13 +31,13 @@ namespace CosmosFunctionsDemo.Services
             _containerUri = UriFactory.CreateDocumentCollectionUri(_databaseName, _containerName);
         }
 
-        public async Task UpdateAvailableInventoryAsync(IDocumentClient documentClient, string productNumber, int quantity)
+        public async Task UpdateAvailableInventoryAsync(IDocumentClient documentClient, OrderLineItem lineItem)
         {
-            var documentUri = UriFactory.CreateDocumentUri(_databaseName, _containerName, productNumber);
+            var documentUri = UriFactory.CreateDocumentUri(_databaseName, _containerName, lineItem.ProductId);
 
-            var productResponse = await documentClient.ReadDocumentAsync<Product>(documentUri);
+            var productResponse = await documentClient.ReadDocumentAsync<Product>(documentUri, new RequestOptions{ PartitionKey = new PartitionKey(lineItem.Category)});
 
-            productResponse.Document.AvailableInventory -= quantity;
+            productResponse.Document.AvailableInventory -= lineItem.Quantity;
 
             await documentClient.UpsertDocumentAsync(_containerUri, productResponse.Document);
         }

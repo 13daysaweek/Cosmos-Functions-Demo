@@ -1,4 +1,5 @@
-﻿using CosmosFunctionsDemo;
+﻿using System;
+using CosmosFunctionsDemo;
 using CosmosFunctionsDemo.Services;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,8 +12,10 @@ namespace CosmosFunctionsDemo
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            var database = Environment.GetEnvironmentVariable("cosmosDatabaseName");
+            var container = Environment.GetEnvironmentVariable("cosmosContainerName");
             builder.Services.AddLogging();
-            builder.Services.AddSingleton<IInventoryUpdateService, InventoryUpdateService>();
+            builder.Services.AddSingleton<IInventoryUpdateService>(_ => new InventoryUpdateService(database, container));
         }
     }
 }
