@@ -1,17 +1,25 @@
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
+using System.Threading.Tasks;
 using CosmosFunctionsDemo.Models;
+using CosmosFunctionsDemo.Services;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
-namespace CosmosFunctionsDemo
+namespace CosmosFunctionsDemo.Functions
 {
-    public static class OrdersChangeFeedProcessor
+    public class OrdersChangeFeedProcessor
     {
+        private readonly IInventoryUpdateService _inventoryUpdateService;
+
+        public OrdersChangeFeedProcessor(IInventoryUpdateService inventoryUpdateService)
+        {
+            _inventoryUpdateService = inventoryUpdateService ?? throw new ArgumentNullException(nameof(inventoryUpdateService));
+        }
+
         [FunctionName("OrdersChangeFeedProcessor")]
-        public static void Run([CosmosDBTrigger(
+        public async Task Run([CosmosDBTrigger(
             databaseName: "%cosmosDatabaseName%",
             collectionName: "%ordersContainerName%",
             ConnectionStringSetting = "cosmosConnectionString",
@@ -29,7 +37,11 @@ namespace CosmosFunctionsDemo
                 foreach (var doc in input)
                 {
                     var order = Order.FromDocument(doc);
-                    log.LogInformation(order.CustomerNumber);
+
+                    foreach (var lineItem in order.LineItems)
+                    {
+                        await _inventoryUpdateService.UpdateAvailableInventoryAsync(documentClient, lineItem.ProductId, lineItem.Quantity);
+                    }
                 }
             }
         }
