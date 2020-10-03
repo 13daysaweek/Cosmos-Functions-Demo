@@ -3,7 +3,7 @@
 ## About
 
 ## Architecture
-[TODO:  Add PUML or some other kind of diagram]
+![Architecture Diagram](docs/Cosmos%20Functions%20Demo.png)
 ### Functions
 
 | Function Name            | Description                              |
