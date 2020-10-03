@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Azure.Documents;
 using Newtonsoft.Json;
 
 namespace CosmosFunctionsDemo.Models
@@ -13,5 +14,13 @@ namespace CosmosFunctionsDemo.Models
 
         [JsonProperty("lineItems")]
         public IList<OrderLineItem> LineItems { get; set; }
+
+        public static Order FromDocument(Document doc)
+        {
+            var orderString = JsonConvert.SerializeObject(doc);
+            var order = JsonConvert.DeserializeObject<Order>(orderString);
+
+            return order;
+        }
     }
 }

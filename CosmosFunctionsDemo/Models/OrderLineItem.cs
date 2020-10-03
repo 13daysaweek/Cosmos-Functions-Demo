@@ -9,5 +9,8 @@ namespace CosmosFunctionsDemo.Models
 
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
+
+        [JsonProperty("category")]
+        public string Category { get; set; }
     }
 }

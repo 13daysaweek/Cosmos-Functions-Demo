@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using CosmosFunctionsDemo.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace CosmosFunctionsDemo
+namespace CosmosFunctionsDemo.Functions
 {
     public static class CreateOrder
     {
