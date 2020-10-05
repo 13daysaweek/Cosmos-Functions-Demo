@@ -13,12 +13,12 @@ The infrastructure template provisions a single Cosmos DB account and database. 
 
 | Function Name             | Description                              |
 |---------------------------|------------------------------------------|
-| [CreateOrder](CosmosFunctionsDemoFunctions/CreateOrder.cs)               | Demonstrates how to save the content of an HTTP post to a Cosmos DB container, using a synchronous approach |
-| CreateOrder2              | Demonstrates how to save the content of an HTTP post to a Cosmos DB container, using a asynchronous approach |
-| GetProductByIdFromRoute   | Demonstrates getting a specific Cosmos DB document, based in parameters (partition key and id) provided in the HTTP route data |
-| GetProducts               | Demonstrates how to use an IDocumentClient instance, provided by the ComsosDB Functions binding |
-| GetProductsByDescription  | Demonstrates how to compose a SQL query, using parameters provided by the HTTP route data |
-| OrdersChangeFeedProcessor | Demonstrates how to trigger a Function, using the Cosmos DB trigger and Change Feed |
+| [CreateOrder](CosmosFunctionsDemo/Functions/CreateOrder.cs)               | Demonstrates how to save the content of an HTTP post to a Cosmos DB container, using a synchronous approach |
+| [CreateOrder2](CosmosFunctionsDemo/Functions/CreateOrder2.cs)              | Demonstrates how to save the content of an HTTP post to a Cosmos DB container, using a asynchronous approach |
+| [GetProductByIdFromRoute](CosmosFunctionsDemo/Functions/GetProductByIdFromRoute.cs)   | Demonstrates getting a specific Cosmos DB document, based in parameters (partition key and id) provided in the HTTP route data |
+| [GetProducts](CosmosFunctionsDemo/Functions/GetProducts.cs)               | Demonstrates how to use an IDocumentClient instance, provided by the ComsosDB Functions binding |
+| [GetProductsByDescription](CosmosFunctionsDemo/Functions/GetProductsByDescription.cs)  | Demonstrates how to compose a SQL query, using parameters provided by the HTTP route data |
+| [OrdersChangeFeedProcessor](CosmosFunctionsDemo/Functions/OrdersChangeFeedProcessor.cs) | Demonstrates how to trigger a Function, using the Cosmos DB trigger and Change Feed |
 
 
 ## Deploying
