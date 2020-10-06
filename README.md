@@ -24,4 +24,4 @@ The infrastructure template provisions a single Cosmos DB account and database. 
 ## Deploying
 
 ### Installing pre-reqs
-The infrastructure template uses v0.01 of the Bicep DSL.  To build the template, install the Bicep tooling.  The Azure DevOps pipeline installs the tooling on the build agent via a bash script.
+The infrastructure template uses v0.01 of the Bicep DSL.  To build the template, install the Bicep tooling.  The [Azure DevOps pipeline](pipelines/pipeline.yaml) installs the tooling on the build agent via a [bash script](infrastructure/install.sh).
