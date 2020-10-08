@@ -1,7 +1,7 @@
 # Azure Functions + Cosmos DB Integration Demo
 
 ## About
-This project provides a number of Azure Functions, to illustrate the capabilities found in the Cosmos DB bindings for Azure Functions.  Documentation around these capabilities and supported scenarios can be <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2" target="_blank">found here</a>.
+This project provides a number of Azure Functions, to illustrate the capabilities found in the Cosmos DB bindings for Azure Functions.  Documentation around these capabilities and supported scenarios can be [found here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2).
 
 ## Architecture
 The following diagram illustrates the components and data flow that make up this solution.  Conceptually, the solution represents a very naive implementation of a retailer, with orders and products.
